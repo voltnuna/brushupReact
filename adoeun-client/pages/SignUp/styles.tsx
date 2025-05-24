@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { Common } from '@utils/styles';
+
 
 export const Header = styled.header`
   text-align: center;
@@ -11,8 +13,8 @@ export const Header = styled.header`
     Arial,
     sans-serif;
   font-weight: 700;
-  font-size: 48px;
-  line-height: 46px;
+  font-size: ${Common.fontSize.title};
+  line-height: ${Common.fontSize.title};
   letter-spacing: -0.75px;
   margin-top: 50px;
   margin-bottom: 50px;
