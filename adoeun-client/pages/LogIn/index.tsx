@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Header, Form, Label, Input, Button, LinkContainer, Error } from '@utils/components';
 import { Link, useNavigate } from 'react-router-dom';
 import useInput from '@hooks/useInput';
@@ -16,6 +16,7 @@ const LogIn = () => {
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setLoginError('');
       axios
         .post(
           '/api/users/login',
@@ -26,23 +27,22 @@ const LogIn = () => {
           { withCredentials: true },
         )
         .then((response) => {
-          console.log('로그인 성공', response.data);
-
-          login(response.data.username); // 상태 저장
-          navigate('/workspace/sleact/channel/general'); // 로그인 후 이동 경로
+          login(response.data.email); // 상태 저장
+          navigate('/workspace'); // 로그인 후 이동 경로
         })
         .catch((error) => {
           setLoginError(error.response?.data?.message || '로그인에 실패했습니다.');
           console.error('로그인 실패', error);
-        })
-        .finally(() => {});
+        });
     },
     [email, password, login, navigate],
   );
-
-if(){
-            navigate('/workspace/sleact/channel/general'); 
-}
+  const isLoggedIn = useUserStore((state) => state.isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/workspace');
+    }
+  }, [isLoggedIn]);
 
   return (
     <div id="container">
